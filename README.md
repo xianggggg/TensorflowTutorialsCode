@@ -3,5 +3,5 @@
 ##Official tensorflow tutorial
 - tutorial_1 : MNIST For ML Beginners
 
-##Third-part tutrial
+##Third-part tutorials
 
