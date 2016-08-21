@@ -1,3 +1,7 @@
-#Learning and coding tensorflow tutorials
+#Learning and coding tensorflow Tutorials 
 
+##Official tensorflow tutorial
 - tutorial_1 : MNIST For ML Beginners
+
+##Third-part tutrial
+
