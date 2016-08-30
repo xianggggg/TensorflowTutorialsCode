@@ -4,21 +4,21 @@
 
 import tensorflow as tf
 
-#sess = tf.InteractiveSession()
+import random as rn
+import numpy as np
 
-state = tf.Variable(0,name="conter")
+a = [["A",3],["d",4],["f",5]]
 
-#create a op to count
-#one = tf.constant(1)
-new_value = tf.add(state,1)
-update = tf.assign(state,new_value)
+b = a[:]
 
-#initialization
-init_op = tf.initialize_all_variables()
+print a
 
-with tf.Session() as sess:
-    sess.run(init_op)
-    print sess.run(state)
-    for _ in range(3):
-        sess.run(update)
-        print sess.run(state)
+# print np.random.shuffle(a)
+
+#print np.random.permutation(a)
+
+print rn.shuffle(a)
+
+print a
+
+print b
