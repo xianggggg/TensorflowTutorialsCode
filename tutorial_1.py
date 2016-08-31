@@ -8,9 +8,12 @@ import tensorflow as tf
 import tensorflow.examples.tutorials.mnist.input_data as input_data
 
 #####~~~~导入数据
-# mnist_train: 55000   28*28 = 784
-#consist of:   mnist.train.images & mnist.train.labels
-# mnist_test:  10000, 10
+'''
+mnist_train: 55000
+mnist.train.images : [60000,784]
+& mnist.train.labels  : [60000,10]
+mnist_test:  10000, 10
+'''
 mnist = input_data.read_data_sets("MNIST_data/", one_hot = True)
 
 ###~~~~~构建模型
@@ -48,17 +51,18 @@ with tf.Session() as sess:
     sess.run(init_op)
     #迭代训练
     for i in xrange(1000):
-        #随即从数据集中取数据
-        batch_xs, batch_ys = mnist.train.next_batch(1000)   #next_batch怎么实现的？？？
+        #随机从数据集中取数据
+        batch_xs, batch_ys = mnist.train.next_batch(1000)
         sess.run(train_step,feed_dict={x:batch_xs,y_:batch_ys})
         if (i%10 == 0):
             print sess.run(accurary, feed_dict={x: mnist.test.images, y_: mnist.test.labels})
 
-###~~~问题：
-#1. 为什么 单个softmax模型比逃一层sigmoid效果好
+'''~~~问题：
+#1. 为什么 单个softmax模型比逃一层sigmoid效果好：
+ans: 许多超参数没有训练
 #2. 为什么bantch内样本多了，学习效果反而下降(梯度下降学习率的实现问题)
-#3. batch和循环的关系
-
+#3. batch和epoch
+'''
 
 
 

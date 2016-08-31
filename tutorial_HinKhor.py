@@ -19,7 +19,7 @@ train_data = []
 for i in xrange(100):
     # 生出模拟数据
     xs = np.array([[i]])
-    ys = np.array([[2 * i+5]])
+    ys = np.array([[2 * i+2]])
     train_data.append([xs,ys])
 
 
@@ -80,25 +80,52 @@ train_step = tf.train.GradientDescentOptimizer(learning_rate=learn_rate).minimiz
 init = tf.initialize_all_variables()
 
 #启动tensorflow会话
-steps = 1000
+#固定迭代次数的版本
+#steps = 10000
+
+steps = 0
 initial_rate = 0.0001
 with tf.Session() as sess:
+    #初始化
     sess.run(init)
-    for i in xrange(1,steps):
+    # 为了计算差值
+    Wv = 0
+    bv = 0
+    #epcho开始
+    while(True):
         # 生出模拟数据
-        data = get_data(train_data,10)
+        data = get_data(train_data,0)
+        #每一次epcho完整数据集
         for j in data:
             xs = j[0]
             ys = j[1]
             #Train
-            feed = {x:xs, y_:ys, learn_rate:initial_rate/i}
+            feed = {x:xs, y_:ys, learn_rate:initial_rate}
             sess.run(train_step,feed_dict=feed)
             #view
-            print ('W: %f' % sess.run(W))
-            print ('b: %f' % sess.run(b))
+            # Wv = sess.run(W)
+            # bv = sess.run(b)
+            # print ('W: %f , dif = %f' % (Wv,sess.run(W)-Wv))
+            # print ('b: %f , dif = %f' % (bv,sess.run(b)-bv))
+            print ('W: %f, dif = %f' % (sess.run(W),sess.run(W)-Wv))
+            print ('b: %f, dif = %f' % (sess.run(b),sess.run(b)-bv))
+            Wv = sess.run(W)
+            bv = sess.run(b)
 
-        print ("%d epochs finished" % i)
+        steps+=1
+        print ("%d epochs finished" % steps)
+        if np.abs(Wv-2) < 0.001 and np.abs(bv -2)<0.001:
+            print ('END! with %d' % steps)
+            break
+
+
 
 '''
-ques: 为什么b的收敛速度这么慢
+ques: 为什么b的收敛速度比w慢：
+ans： 因为求偏导数后，w比b多乘一个x
+
+epcho numbers:
+stochastic:  2786,   size = 1, 1*100*2786 = 278600
+all: 2222014
+minibatch: 14482, size = 10,  10*10*14482 = 1448200
 '''
