@@ -6,9 +6,9 @@
 import tensorflow as tf
 import numpy as np
 
-# a = np.array([1,5,4,3,2])
-#
-# np.random.shuffle(10)
+w = tf.Variable(tf.zeros([784,10]))
 
-print ('%f,%f' % (0.01, 0.02))
+with tf.Session() as sess:
+    sess.run(tf.initialize_all_variables())
+
 
