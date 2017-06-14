@@ -50,14 +50,14 @@ def main(_):
 
     #Train
     for _ in range(1000):
-        #定义好的next_batch方法
+        #!这里是定义好的next_batch方法
         batch_xs, batch_ys = mnist.train.next_batch(FLAGS.batchsize)
         train_step.run(feed_dict = {x:batch_xs, y_: batch_ys})
 
     # Evaluation
     #计算准确率每一次迭代的准确率,使用测试集
     #感觉tutorial有错误，此处应该用softmax的结果，而不是直接用y,不过考虑到softmax的性质，其实是一样的
-
+    #t.eval() is a shortcut for calling tf.get_default_session().run(t).
     correct_prediction = tf.equal(tf.argmax(tf.nn.softmax(y),1), tf.argmax(y_,1))
     accurary = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
     print(accurary.eval(feed_dict = {x: mnist.test.images, y_: mnist.test.labels}))
